@@ -2,7 +2,7 @@
 
 * [Git](https://git-scm.com/downloads)
 * [NodeJS](https://nodejs.org/en/download/)
-* [VSCode](https://code.visualstudio.com/).
+* [VSCode](https://code.visualstudio.com/)
 
 ## First-Time Installation Steps
 
