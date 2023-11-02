@@ -1,6 +1,6 @@
 title = "DVD SURVIVAL";
 
-description = `
+description = `Avoid getting hit!
 `;
 
 characters = [];
@@ -8,7 +8,6 @@ characters = [];
 options = {};
 
 function update() {
-	if (!ticks) {
-		
-	}
+  if (!ticks) {
+  }
 }
