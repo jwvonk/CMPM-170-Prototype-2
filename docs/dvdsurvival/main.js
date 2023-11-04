@@ -91,7 +91,7 @@ function update() {
 		const speedXSign = Math.sign(player.speedX);
     	const speedYSign = Math.sign(player.speedY);
 
-		// Check if the score is less than 45 before incrementing speed
+		// Check if the score is less than 100 before incrementing speed
 		if (score < 100 && score % 10 === 0) {
 			player.speedX += 0.1 * speedXSign;
 			player.speedY += 0.1 * speedYSign;
@@ -107,7 +107,7 @@ function update() {
     	const speedYSign = Math.sign(player.speedY);
 		const speedXSign = Math.sign(player.speedX);
 
-		// Check if the score is less than 45 before incrementing speed
+		// Check if the score is less than 100 before incrementing speed
 		if (score < 100 && score % 10 === 0) {
 			player.speedX += 0.1 * speedXSign;
 			player.speedY += 0.1 * speedYSign;
