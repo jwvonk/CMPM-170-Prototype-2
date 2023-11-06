@@ -86,12 +86,34 @@ function update() {
 		player.speedX *= -1;
 		colorShift(colorCount%6);
 		colorCount+=1;
+		addScore(1);
+
+		const speedXSign = Math.sign(player.speedX);
+    	const speedYSign = Math.sign(player.speedY);
+
+		// Check if the score is less than 100 before incrementing speed
+		if (score < 100 && score % 10 === 0) {
+			player.speedX += 0.1 * speedXSign;
+			player.speedY += 0.1 * speedYSign;
+		}
 	}
+
 	if (player.pos.y >= G.HEIGHT-2 || player.pos.y <= 2) {
 		player.speedY *= -1;
 		colorShift(colorCount%6);
 		colorCount+=1;
+		addScore(1);
+		
+    	const speedYSign = Math.sign(player.speedY);
+		const speedXSign = Math.sign(player.speedX);
+
+		// Check if the score is less than 100 before incrementing speed
+		if (score < 100 && score % 10 === 0) {
+			player.speedX += 0.1 * speedXSign;
+			player.speedY += 0.1 * speedYSign;
+		}
 	}
+
 	player.pos = vec(player.pos.x + player.speedX, player.pos.y + player.speedY);
 	box(player.pos, 4);
 	enemies = [];
@@ -108,4 +130,7 @@ function update() {
 
 		// return (vec.e.pos.y > player.pos.y);
 	})
+
+	console.log("score: " + score);
+	console.log("SpeedX: " + player.speedX + " SpeedY: " + player.speedY);
 }
