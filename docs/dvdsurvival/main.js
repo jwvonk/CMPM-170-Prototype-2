@@ -84,7 +84,6 @@ function update() {
 
 	if (player.pos.x >= G.WIDTH-2 || player.pos.x <= 2) {
 		player.speedX *= -1;
-		colorShift(colorCount%6);
 		colorCount+=1;
 		addScore(1);
 
@@ -100,7 +99,6 @@ function update() {
 
 	if (player.pos.y >= G.HEIGHT-2 || player.pos.y <= 2) {
 		player.speedY *= -1;
-		colorShift(colorCount%6);
 		colorCount+=1;
 		addScore(1);
 		
@@ -113,7 +111,7 @@ function update() {
 			player.speedY += 0.1 * speedYSign;
 		}
 	}
-
+	colorShift(colorCount%6);
 	player.pos = vec(player.pos.x + player.speedX, player.pos.y + player.speedY);
 	box(player.pos, 4);
 	enemies = [];
