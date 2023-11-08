@@ -14,7 +14,10 @@ ll ll
 const G = {
 	WIDTH: 150,
 	HEIGHT: 100,
-	ENEMY_SPEED: 1
+	ENEMY_SPEED: 1,
+	PLAYER_BASE_SPEED: 1,
+	PLAYER_WIDTH: 6,
+	PLAYER_HEIGHT: 4
 };
 
 options = {
@@ -26,8 +29,9 @@ options = {
 /**
  * @typedef {{
  * pos: Vector,
- * speedX: number,
- * speedY: number
+ * speed: number,
+ * isMovingLeft: boolean,
+ * isMovingUp: boolean,
  * }} Player
  */
 
@@ -47,7 +51,12 @@ let player;
  * @type { Enemy [] }
  */
 let enemies;
+
+/**
+ * @type { number }
+ */
 let colorCount = 0;
+
 function colorShift(t){
 	switch(t){
 		case 0:
@@ -73,12 +82,14 @@ function colorShift(t){
 			break;
 	}
 }
+
 function update() {
 	if (!ticks) {
 		player = {
 			pos: vec(G.WIDTH * 0.5, G.HEIGHT * 0.5),
-			speedX: 1,
-			speedY: 1
+			speed: G.PLAYER_BASE_SPEED,
+			isMovingLeft: false,
+			isMovingUp: false
 		};
 
 		enemies = [];
@@ -95,41 +106,37 @@ function update() {
 	}
 
 	if (input.isJustPressed) {
-		// play("jump");
-		player.speedY *= -1;
+		player.isMovingUp = !player.isMovingUp;
 	}
 
-	if (player.pos.x >= G.WIDTH-2 || player.pos.x <= 2) {
-		player.speedX *= -1;
-		colorCount+=1;
-		addScore(1);
+	if (player.pos.x >= G.WIDTH - G.PLAYER_WIDTH/2 || player.pos.x <= G.PLAYER_HEIGHT/2) {
+		player.isMovingLeft = !player.isMovingLeft;
 
-		const speedXSign = Math.sign(player.speedX);
-    	const speedYSign = Math.sign(player.speedY);
+		addScore(1, player.pos);
+
+		colorCount++;
 
 		// Check if the score is less than 100 before incrementing speed
 		if (score < 100 && score % 10 === 0) {
-			player.speedX += 0.1 * speedXSign;
-			player.speedY += 0.1 * speedYSign;
+			player.speed += 0.1;
 		}
 	}
 
-	if (player.pos.y >= G.HEIGHT-2 || player.pos.y <= 2) {
-		player.speedY *= -1;
-		colorCount+=1;
-		addScore(1);
-		
-    	const speedYSign = Math.sign(player.speedY);
-		const speedXSign = Math.sign(player.speedX);
+	 if (player.pos.y >= G.HEIGHT - G.PLAYER_HEIGHT/2 || player.pos.y <= G.PLAYER_HEIGHT/2) {
+		player.isMovingUp = !player.isMovingUp;
 
-		// Check if the score is less than 100 before incrementing speed
+		addScore(1, player.pos);
+
+		colorCount++;
+
 		if (score < 100 && score % 10 === 0) {
-			player.speedX += 0.1 * speedXSign;
-			player.speedY += 0.1 * speedYSign;
+			player.speed += 0.1;
 		}
 	}
 
-	player.pos = vec(player.pos.x + player.speedX, player.pos.y + player.speedY);
+	player.pos.x += (player.isMovingLeft) ? -player.speed : player.speed;
+	player.pos.y += (player.isMovingUp) ? -player.speed : player.speed;
+
 	// player.pos.clamp(0, G.WIDTH, 0, G.HEIGHT);
 	colorShift(colorCount%6);
 	char("a", player.pos);
@@ -145,7 +152,4 @@ function update() {
 
 		return (e.pos.y > G.HEIGHT);
 	});
-
-	console.log("score: " + score);
-	console.log("SpeedX: " + player.speedX + " SpeedY: " + player.speedY);
 }
