@@ -3,11 +3,18 @@ title = "DVD SURVIVAL";
 description = `Avoid the enemies!
 `;
 
-characters = [];
+characters = [
+`
+ll ll
+l ll l
+ll ll
+`	
+];
 
 const G = {
 	WIDTH: 150,
 	HEIGHT: 100,
+	ENEMY_SPEED: 1
 };
 
 options = {
@@ -73,9 +80,19 @@ function update() {
 			speedX: 1,
 			speedY: 1
 		};
-		color("cyan");
+
+		enemies = [];
 	}
 	
+	if (enemies.length === 0) {
+		for (let i = 0; i < 4; i++) {
+			const posX = rnd(0, G.WIDTH);
+			const posY = -i * G.HEIGHT * 0.1;
+			enemies.push({
+				pos: vec(posX, posY),
+			 })
+		}
+	}
 
 	if (input.isJustPressed) {
 		// play("jump");
@@ -111,23 +128,23 @@ function update() {
 			player.speedY += 0.1 * speedYSign;
 		}
 	}
-	colorShift(colorCount%6);
-	player.pos = vec(player.pos.x + player.speedX, player.pos.y + player.speedY);
-	box(player.pos, 4);
-	enemies = [];
-	if (enemies.length === 0) {
-		for (let i = 0; i < 1; i++) {
-			const posX = G.WIDTH * .3;
-			const posy = G.HEIGHT * .3;
-			enemies.push({pos: vec(posX, posy)})
-		}
-	}
-	remove(enemies, (e) => {
-		color("black");
-		char("b", e.pos);
 
-		// return (vec.e.pos.y > player.pos.y);
-	})
+	player.pos = vec(player.pos.x + player.speedX, player.pos.y + player.speedY);
+	// player.pos.clamp(0, G.WIDTH, 0, G.HEIGHT);
+	colorShift(colorCount%6);
+	char("a", player.pos);
+
+	remove(enemies, (e) => {
+		e.pos.y += G.ENEMY_SPEED;
+
+		color("black");
+
+		const isCollidingWithPlayer = box(e.pos, 10).isColliding.char.a;
+
+		if (isCollidingWithPlayer) end();
+
+		return (e.pos.y > G.HEIGHT);
+	});
 
 	console.log("score: " + score);
 	console.log("SpeedX: " + player.speedX + " SpeedY: " + player.speedY);
