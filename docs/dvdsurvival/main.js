@@ -22,7 +22,8 @@ const G = {
 
 options = {
 	viewSize: {x: G.WIDTH, y: G.HEIGHT},
-	theme: "dark"
+	theme: "dark",
+	isReplayEnabled: true
 };
 
 
@@ -113,7 +114,7 @@ function update() {
 		player.isMovingLeft = !player.isMovingLeft;
 
 		addScore(1, player.pos);
-
+		play("coin");
 		colorCount++;
 
 		// Check if the score is less than 100 before incrementing speed
@@ -126,7 +127,7 @@ function update() {
 		player.isMovingUp = !player.isMovingUp;
 
 		addScore(1, player.pos);
-
+		play("coin");
 		colorCount++;
 
 		if (score < 100 && score % 10 === 0) {
@@ -148,8 +149,10 @@ function update() {
 
 		const isCollidingWithPlayer = box(e.pos, 10).isColliding.char.a;
 
-		if (isCollidingWithPlayer) end();
-
+		if (isCollidingWithPlayer){
+		play('hit');
+		end();
+		}
 		return (e.pos.y > G.HEIGHT);
 	});
 }
