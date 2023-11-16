@@ -1,4 +1,4 @@
-# [DVD SURVIVAL](https://jwvonk.github.io/CMPM-170-Prototype-2/?dvdsurvival)
+# [DVD SURVIVAL](https://jwvonk.github.io/CMPM-170-Prototype-2-Group/?dvdsurvival)
 
 ## DEVELOPMENT SOFTWARE
 
